@@ -12,6 +12,7 @@
 #include "Mouse.h"
 #include "Audio.h"
 #include "CMOGO.h"
+#include "Player.h"
 
 using std::list;
 
@@ -121,4 +122,6 @@ private:
 	//See here: https://github.com/Microsoft/DirectXTK/wiki/Creating-and-playing-sounds Using wave banks Section
     std::unique_ptr<DirectX::AudioEngine> m_audioEngine;
     list<Sound*>m_Sounds;
+
+    Player* pPlayer;
 };
