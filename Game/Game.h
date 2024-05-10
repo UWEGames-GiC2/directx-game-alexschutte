@@ -13,6 +13,7 @@
 #include "Audio.h"
 #include "CMOGO.h"
 #include "Player.h"
+#include "ImageGO2D.h"
 
 using std::list;
 

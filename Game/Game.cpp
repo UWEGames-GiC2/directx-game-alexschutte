@@ -111,12 +111,13 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_GameObjects.push_back(m_cam);
 
     //add Player
-    pPlayer = new Player("BirdModelV1", m_d3dDevice.Get(), m_fxFactory);
+    pPlayer = new Player("longCube", m_d3dDevice.Get(), m_fxFactory);
+    pPlayer->SetScale(Vector3(8.0f, 20.0f, 8.0f));
     m_GameObjects.push_back(pPlayer);
     m_PhysicsObjects.push_back(pPlayer);
 
     //add a secondary camera
-    m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 1.0f, 10000.0f, pPlayer, Vector3::UnitY, Vector3(0.0f, 0.0f, 0.01f));
+    m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 3.5f, 10000.0f, pPlayer, Vector3::UnitY, Vector3(0.0f, 0.0f, 0.01f));
     m_GameObjects.push_back(m_TPScam);
 
     //create DrawData struct and populate its pointers
@@ -126,7 +127,13 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_DD->m_cam = m_cam;
     m_DD->m_light = m_light;
 
-    ////example basic 2D stuff
+    //example basic 2D stuff
+
+    TextGO2D* crosshair = new TextGO2D("+");
+    crosshair->SetPos(Vector2(380.0f, 250.0f));
+    crosshair->SetColour(Color((float*)&Colors::LimeGreen));
+    m_GameObjects2D.push_back(crosshair);
+    
     //ImageGO2D* logo = new ImageGO2D("logo_small", m_d3dDevice.Get());
     //logo->SetPos(200.0f * Vector2::One);
     //m_GameObjects2D.push_back(logo);
@@ -226,11 +233,7 @@ void Game::Render()
     m_DD->m_pd3dImmediateContext = m_d3dContext.Get();
 
     //set which camera to be used
-    m_DD->m_cam = m_cam;
-    if (m_GD->m_GS == GS_PLAY_TPS_CAM)
-    {
-        m_DD->m_cam = m_TPScam;
-    }
+    m_DD->m_cam = m_TPScam;
 
     //update the constant buffer for the rendering of VBGOs
     VBGO::UpdateConstantBuffer(m_DD);
