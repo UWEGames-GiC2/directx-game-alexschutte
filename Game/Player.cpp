@@ -10,7 +10,7 @@ Player::Player(string _fileName, ID3D11Device* _pd3dDevice, IEffectFactory* _EF)
 
 	m_pos.y = 10.0f;
 
-	SetDrag(0.7);
+	SetDrag(10.0);
 	SetPhysicsOn(true);
 }
 
@@ -22,45 +22,49 @@ Player::~Player()
 
 void Player::Tick(GameData* _GD)
 {
-	switch (_GD->m_GS)
+	float speed = 10.0f;
+			
+	//STRAFE AND FORWARD CONTROL HERE
+	Vector3 forwardMove = 675.0f * Vector3::Forward;
+	Vector3 leftMove = 900.0f * Vector3::Left;
+	Vector3 rightMove = 900.0f * Vector3::Right;
+	Matrix rotMove = Matrix::CreateRotationY(m_yaw);
+
+	forwardMove = Vector3::Transform(forwardMove, rotMove);
+	leftMove = Vector3::Transform(leftMove, rotMove);
+	rightMove = Vector3::Transform(rightMove, rotMove);
+
+	if (_GD->m_KBS.W)
 	{
-	case GS_PLAY_MAIN_CAM:
-	{
-		{
-			//MOUSE CONTROL SCHEME HERE
-			float speed = 10.0f;
-			m_acc.x += speed * _GD->m_MS.x;
-			m_acc.z += speed * _GD->m_MS.y;
-			break;
-		}
+		m_acc += forwardMove;
 	}
-	case GS_PLAY_TPS_CAM:
+	if (_GD->m_KBS.S)
 	{
-		//TURN AND FORWARD CONTROL HERE
-		Vector3 forwardMove = 40.0f * Vector3::Forward;
-		Matrix rotMove = Matrix::CreateRotationY(m_yaw);
-		forwardMove = Vector3::Transform(forwardMove, rotMove);
-		if (_GD->m_KBS.W)
-		{
-			m_acc += forwardMove;
-		}
-		if (_GD->m_KBS.S)
-		{
-			m_acc -= forwardMove;
-		}
-		break;
-	}
+		m_acc -= forwardMove;
 	}
 
 	//change orinetation of player
 	float rotSpeed = 2.0f * _GD->m_dt;
+
+	m_yaw -= rotSpeed * _GD->m_MS.x;
+	m_pitch -= rotSpeed * _GD->m_MS.y;
+
+	if (m_pitch > XMConvertToRadians(60))
+	{
+		m_pitch = XMConvertToRadians(60);
+	}
+	if (m_pitch < -XMConvertToRadians(60))
+	{
+		m_pitch = -XMConvertToRadians(60);
+	}
+
 	if (_GD->m_KBS.A)
 	{
-		m_yaw += rotSpeed;
+		m_acc += leftMove;
 	}
 	if (_GD->m_KBS.D)
 	{
-		m_yaw -= rotSpeed;
+		m_acc += rightMove;
 	}
 
 	//move player up and down

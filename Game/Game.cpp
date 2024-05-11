@@ -235,6 +235,7 @@ void Game::Render()
     //set which camera to be used
     m_DD->m_cam = m_TPScam;
 
+
     //update the constant buffer for the rendering of VBGOs
     VBGO::UpdateConstantBuffer(m_DD);
 
