@@ -22,16 +22,25 @@ Player::~Player()
 
 void Player::Tick(GameData* _GD)
 {
-	float speed = 10.0f;
+	float speed = 675.0f;
+
+	if (_GD->m_KBS.LeftShift)
+	{
+		speed = 1200.0f;
+	}
+	else
+	{
+		speed = 675.0f;
+	}
 
 	//player gravity
 	Vector3 gravity = 200.0f * Vector3::Down;
 	m_acc += gravity;
 			
 	//STRAFE AND FORWARD CONTROL HERE
-	Vector3 forwardMove = 675.0f * Vector3::Forward;
-	Vector3 leftMove = 900.0f * Vector3::Left;
-	Vector3 rightMove = 900.0f * Vector3::Right;
+	Vector3 forwardMove = speed * Vector3::Forward;
+	Vector3 leftMove = (speed + 225.0f) * Vector3::Left;
+	Vector3 rightMove = (speed + 225.0f) * Vector3::Right;
 	Matrix rotMove = Matrix::CreateRotationY(m_yaw);
 
 	forwardMove = Vector3::Transform(forwardMove, rotMove);
