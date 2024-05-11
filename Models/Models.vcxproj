@@ -150,10 +150,13 @@
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Bird\BirdModelV1.fbx" />
+    <MeshContentTask Include="cubeDRed.fbx" />
     <MeshContentTask Include="longCube.fbx" />
+    <MeshContentTask Include="sphereWhite.fbx" />
     <MeshContentTask Include="Table\table.FBX">
       <FileType>Document</FileType>
     </MeshContentTask>
+    <MeshContentTask Include="target.fbx" />
     <MeshContentTask Include="Vase\JEMINA vase -up.fbx">
       <FileType>Document</FileType>
     </MeshContentTask>

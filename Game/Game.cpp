@@ -96,14 +96,62 @@ void Game::Initialize(HWND _window, int _width, int _height)
     //find how big my window is to correctly calculate my aspect ratio
     float AR = (float)_width / (float)_height;
 
-    //example basic 3D stuff
-    Terrain* terrain = new Terrain("table", m_d3dDevice.Get(), m_fxFactory, Vector3(100.0f, 0.0f, 100.0f), 0.0f, 0.0f, 0.0f, 0.25f * Vector3::One);
+    //terrain
+    Terrain* terrain = new Terrain("cubeDRed", m_d3dDevice.Get(), m_fxFactory, Vector3(-5000.0f, -50.0f, -5000.0f), 0.0f, 0.0f, 0.0f, 250.0f * Vector3(100.0f, 1.0f, 100.0f));
     m_GameObjects.push_back(terrain);
     m_ColliderObjects.push_back(terrain);
 
-    Terrain* terrain2 = new Terrain("table", m_d3dDevice.Get(), m_fxFactory, Vector3(-100.0f, 0.0f, -100.0f), 0.0f, 0.0f, 0.0f, Vector3::One);
+    Terrain* terrain2 = new Terrain("cubeDRed", m_d3dDevice.Get(), m_fxFactory, Vector3(-80.0f, -0.75f, 0.0f), 0.0f, 0.0f, 0.0f, Vector3(500.0f, 200.0f, 60.0f));
     m_GameObjects.push_back(terrain2);
     m_ColliderObjects.push_back(terrain2);
+
+    Terrain* terrain3 = new Terrain("cubeDRed", m_d3dDevice.Get(), m_fxFactory, Vector3(-80.0f, -0.75f, -100.0f), 0.0f, 0.0f, 0.0f, Vector3(500.0f, 200.0f, 60.0f));
+    m_GameObjects.push_back(terrain3);
+    m_ColliderObjects.push_back(terrain3);
+
+    Terrain* terrain4 = new Terrain("cubeDRed", m_d3dDevice.Get(), m_fxFactory, Vector3(10.0f, -0.75f, -140.0f), 0.0f, 0.0f, 0.0f, Vector3(60.0f, 200.0f, 500.0f));
+    m_GameObjects.push_back(terrain4);
+    m_ColliderObjects.push_back(terrain4);
+
+    Terrain* terrain5 = new Terrain("cubeDRed", m_d3dDevice.Get(), m_fxFactory, Vector3(-90.0f, -0.75f, -70.0f), 0.0f, 0.0f, 0.0f, Vector3(60.0f, 200.0f, 500.0f));
+    m_GameObjects.push_back(terrain5);
+    m_ColliderObjects.push_back(terrain5);
+
+    Terrain* terrain6 = new Terrain("cubeDRed", m_d3dDevice.Get(), m_fxFactory, Vector3(-90.0f, -0.75f, -210.0f), 0.0f, 0.0f, 0.0f, Vector3(60.0f, 200.0f, 500.0f));
+    m_GameObjects.push_back(terrain6);
+    m_ColliderObjects.push_back(terrain6);
+
+    Terrain* terrain7 = new Terrain("cubeDRed", m_d3dDevice.Get(), m_fxFactory, Vector3(-190.0f, -0.75f, 0.0f), 0.0f, 0.0f, 0.0f, Vector3(500.0f, 200.0f, 60.0f));
+    m_GameObjects.push_back(terrain7);
+    m_ColliderObjects.push_back(terrain7);
+
+    Terrain* terrain8 = new Terrain("cubeDRed", m_d3dDevice.Get(), m_fxFactory, Vector3(-190.0f, -0.75f, -100.0f), 0.0f, 0.0f, 0.0f, Vector3(500.0f, 200.0f, 60.0f));
+    m_GameObjects.push_back(terrain8);
+    m_ColliderObjects.push_back(terrain8);
+
+    Terrain* terrain10 = new Terrain("cubeDRed", m_d3dDevice.Get(), m_fxFactory, Vector3(-200.0f, -0.75f, -70.0f), 0.0f, 0.0f, 0.0f, Vector3(60.0f, 200.0f, 500.0f));
+    m_GameObjects.push_back(terrain10);
+    m_ColliderObjects.push_back(terrain10);
+
+    Terrain* terrain11 = new Terrain("cubeDRed", m_d3dDevice.Get(), m_fxFactory, Vector3(-200.0f, -0.75f, -210.0f), 0.0f, 0.0f, 0.0f, Vector3(60.0f, 200.0f, 500.0f));
+    m_GameObjects.push_back(terrain11);
+    m_ColliderObjects.push_back(terrain11);
+
+    Terrain* terrain12 = new Terrain("cubeDRed", m_d3dDevice.Get(), m_fxFactory, Vector3(-300.0f, -0.75f, 0.0f), 0.0f, 0.0f, 0.0f, Vector3(500.0f, 200.0f, 60.0f));
+    m_GameObjects.push_back(terrain12);
+    m_ColliderObjects.push_back(terrain12);
+
+    Terrain* terrain13 = new Terrain("cubeDRed", m_d3dDevice.Get(), m_fxFactory, Vector3(-300.0f, -0.75f, -100.0f), 0.0f, 0.0f, 0.0f, Vector3(500.0f, 200.0f, 60.0f));
+    m_GameObjects.push_back(terrain13);
+    m_ColliderObjects.push_back(terrain13);
+
+    Terrain* terrain14 = new Terrain("cubeDRed", m_d3dDevice.Get(), m_fxFactory, Vector3(-310.0f, -0.75f, -70.0f), 0.0f, 0.0f, 0.0f, Vector3(60.0f, 200.0f, 500.0f));
+    m_GameObjects.push_back(terrain14);
+    m_ColliderObjects.push_back(terrain14);
+
+    Terrain* terrain15 = new Terrain("cubeDRed", m_d3dDevice.Get(), m_fxFactory, Vector3(-310.0f, -0.75f, -210.0f), 0.0f, 0.0f, 0.0f, Vector3(60.0f, 200.0f, 500.0f));
+    m_GameObjects.push_back(terrain15);
+    m_ColliderObjects.push_back(terrain15);
 
     //create a base camera
     m_cam = new Camera(0.25f * XM_PI, AR, 1.0f, 10000.0f, Vector3::UnitY, Vector3::Zero);
@@ -112,7 +160,7 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     //add Player
     pPlayer = new Player("longCube", m_d3dDevice.Get(), m_fxFactory);
-    pPlayer->SetScale(Vector3(8.0f, 20.0f, 8.0f));
+    pPlayer->SetScale(Vector3(60.0f, 60.0f, 60.0f));
     m_GameObjects.push_back(pPlayer);
     m_PhysicsObjects.push_back(pPlayer);
 

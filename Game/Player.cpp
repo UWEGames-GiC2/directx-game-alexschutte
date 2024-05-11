@@ -8,7 +8,7 @@ Player::Player(string _fileName, ID3D11Device* _pd3dDevice, IEffectFactory* _EF)
 	//any special set up for Player goes here
 	m_fudge = Matrix::CreateRotationY(XM_PI);
 
-	m_pos.y = 10.0f;
+	m_pos = Vector3(-10.0f, 30.0f, -10.0f);
 
 	SetDrag(10.0);
 	SetPhysicsOn(true);
@@ -23,6 +23,10 @@ Player::~Player()
 void Player::Tick(GameData* _GD)
 {
 	float speed = 10.0f;
+
+	//player gravity
+	Vector3 gravity = 200.0f * Vector3::Down;
+	m_acc += gravity;
 			
 	//STRAFE AND FORWARD CONTROL HERE
 	Vector3 forwardMove = 675.0f * Vector3::Forward;
@@ -70,12 +74,12 @@ void Player::Tick(GameData* _GD)
 	//move player up and down
 	if (_GD->m_KBS.R)
 	{
-		m_acc.y += 40.0f;
+		m_acc.y += 100.0f;
 	}
 
 	if (_GD->m_KBS.F)
 	{
-		m_acc.y -= 40.0f;
+		m_acc.y -= 100.0f;
 	}
 
 	//limit motion of the player
