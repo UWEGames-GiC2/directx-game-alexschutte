@@ -157,12 +157,77 @@ void Game::Initialize(HWND _window, int _width, int _height)
     //projectiles
     for (size_t i = 0; i < 5; i++)
     {
-        Projectile* pProjectile = new Projectile("sphereWhite", m_d3dDevice.Get(), m_fxFactory);
-        pProjectile->setExistence(false);
-        pProjectile->SetScale(5.0f);
-        m_GameObjects.push_back(pProjectile);
-        m_PlayerProjectiles.push_back(pProjectile);
+        pProjectile[i] = new Projectile("sphereWhite", m_d3dDevice.Get(), m_fxFactory);
+        pProjectile[i]->setExistence(false);
+        pProjectile[i]->SetScale(5.0f);
+        m_GameObjects.push_back(pProjectile[i]);
+        m_PlayerProjectiles.push_back(pProjectile[i]);
+        m_PhysicsObjects.push_back(pProjectile[i]);
     }
+
+    //targets
+    pTarget = new Target("target", m_d3dDevice.Get(), m_fxFactory);
+    pTarget->SetPos(Vector3(50.0f, 20.0f, 0.0f));
+    pTarget->SetScale(10.0f);
+    m_GameObjects.push_back(pTarget);
+    m_ColliderObjects.push_back(pTarget);
+    m_Targets.push_back(pTarget);
+
+    pTarget1 = new Target("target", m_d3dDevice.Get(), m_fxFactory);
+    pTarget1->SetPos(Vector3(50.0f, 20.0f, 10.0f));
+    pTarget1->SetScale(10.0f);
+    m_GameObjects.push_back(pTarget1);
+    m_ColliderObjects.push_back(pTarget1);
+    m_Targets.push_back(pTarget1);
+
+    pTarget2 = new Target("target", m_d3dDevice.Get(), m_fxFactory);
+    pTarget2->SetPos(Vector3(50.0f, 20.0f, 20.0f));
+    pTarget2->SetScale(10.0f);
+    m_GameObjects.push_back(pTarget2);
+    m_ColliderObjects.push_back(pTarget2);
+    m_Targets.push_back(pTarget2);
+
+    pTarget3 = new Target("target", m_d3dDevice.Get(), m_fxFactory);
+    pTarget3->SetPos(Vector3(50.0f, 20.0f, 30.0f));
+    pTarget3->SetScale(10.0f);
+    m_GameObjects.push_back(pTarget3);
+    m_ColliderObjects.push_back(pTarget3);
+    m_Targets.push_back(pTarget3);
+
+    pTarget4 = new Target("target", m_d3dDevice.Get(), m_fxFactory);
+    pTarget4->SetPos(Vector3(50.0f, 20.0f, 40.0f));
+    pTarget4->SetScale(10.0f);
+    m_GameObjects.push_back(pTarget4);
+    m_ColliderObjects.push_back(pTarget4);
+    m_Targets.push_back(pTarget4);
+
+    pTarget5 = new Target("target", m_d3dDevice.Get(), m_fxFactory);
+    pTarget5->SetPos(Vector3(50.0f, 20.0f, 50.0f));
+    pTarget5->SetScale(10.0f);
+    m_GameObjects.push_back(pTarget5);
+    m_ColliderObjects.push_back(pTarget5);
+    m_Targets.push_back(pTarget5);
+
+    pTarget6 = new Target("target", m_d3dDevice.Get(), m_fxFactory);
+    pTarget6->SetPos(Vector3(50.0f, 20.0f, 60.0f));
+    pTarget6->SetScale(10.0f);
+    m_GameObjects.push_back(pTarget6);
+    m_ColliderObjects.push_back(pTarget6);
+    m_Targets.push_back(pTarget6);
+
+    pTarget7 = new Target("target", m_d3dDevice.Get(), m_fxFactory);
+    pTarget7->SetPos(Vector3(50.0f, 20.0f, 70.0f));
+    pTarget7->SetScale(10.0f);
+    m_GameObjects.push_back(pTarget7);
+    m_ColliderObjects.push_back(pTarget7);
+    m_Targets.push_back(pTarget7);
+
+    pTarget8 = new Target("target", m_d3dDevice.Get(), m_fxFactory);
+    pTarget8->SetPos(Vector3(50.0f, 20.0f, 80.0f));
+    pTarget8->SetScale(10.0f);
+    m_GameObjects.push_back(pTarget8);
+    m_ColliderObjects.push_back(pTarget8);
+    m_Targets.push_back(pTarget8);
 
     //create a base camera
     m_cam = new Camera(0.25f * XM_PI, AR, 1.0f, 10000.0f, Vector3::UnitY, Vector3::Zero);
@@ -653,10 +718,27 @@ void Game::ReadInput()
     }
 }
 
+void Game::CheckProjectileCollision()
+{
+    for (int i = 0; i < m_PlayerProjectiles.size(); i++) for (int j = 0; j < m_Targets.size(); j++)
+    {
+        if (m_PlayerProjectiles[i]->Intersects(*m_Targets[j]))
+        {
+            if (m_PlayerProjectiles[i]->DoesExist() && m_Targets[j]->DoesExist())
+            {
+                m_Targets[j]->targetHit();
+                std::cout << "Hit" << endl;
+            }
+            m_PlayerProjectiles[i]->setExistence(false);
+        }
+    }
+}
+
 void Game::CheckCollision()
 {
     for (int i = 0; i < m_PhysicsObjects.size(); i++) for (int j = 0; j < m_ColliderObjects.size(); j++)
     {
+        CheckProjectileCollision();
         if (m_PhysicsObjects[i]->Intersects(*m_ColliderObjects[j])) //std::cout << "Collision Detected!" << std::endl;
         {
             XMFLOAT3 eject_vect = Collision::ejectionCMOGO(*m_PhysicsObjects[i], *m_ColliderObjects[j]);

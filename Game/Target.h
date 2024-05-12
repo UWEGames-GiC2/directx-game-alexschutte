@@ -12,7 +12,7 @@ public:
     void targetHit();
     void targetMove();
 
-    bool target_moves;
+    bool target_moves = false;
 
     virtual void Tick(GameData* _GD) override;
 };

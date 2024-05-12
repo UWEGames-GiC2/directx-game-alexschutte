@@ -15,6 +15,8 @@
 #include "Player.h"
 #include "ImageGO2D.h"
 #include "Projectile.h"
+#include "Target.h"
+#include "Door.h"
 
 using std::list;
 
@@ -124,8 +126,10 @@ private:
 
     std::vector<CMOGO*> m_PlayerProjectiles;
     std::vector<Projectile*> m_Projectile;
+    std::vector<Target*> m_Targets;
 
     void CheckCollision();
+    void CheckProjectileCollision();
                                          
     //sound stuff
 	//This uses a simple system, but a better pipeline can be used using Wave Banks
@@ -134,4 +138,14 @@ private:
     list<Sound*>m_Sounds;
 
     Player* pPlayer;
+    Projectile* pProjectile[5];
+    Target* pTarget;
+    Target* pTarget1;
+    Target* pTarget2;
+    Target* pTarget3;
+    Target* pTarget4;
+    Target* pTarget5;
+    Target* pTarget6;
+    Target* pTarget7;
+    Target* pTarget8;
 };

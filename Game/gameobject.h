@@ -41,6 +41,7 @@ public:
 	float		GetDrag() { return m_drag; }
 
 	//setters
+	void		SetPos(float _pos) { m_pos = _pos * Vector3::One; }
 	void		SetPos(Vector3 _pos) { m_pos = _pos; }
 
 	void		SetScale(float _scale) { m_scale = _scale * Vector3::One; }

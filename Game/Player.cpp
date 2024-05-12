@@ -98,13 +98,14 @@ void Player::Tick(GameData* _GD)
 		{
 			if (!projectiles[i]->DoesExist())
 			{
-				//TODO pitch projectiles?????
 				Vector3 forwardMove = 40.0f * Vector3::Forward;
-				Matrix rotMove = Matrix::CreateRotationY(m_yaw);
+				//Matrix rotMove = Matrix::CreateRotationY(m_yaw);
+				Matrix rotMove = Matrix::CreateFromYawPitchRoll(this->GetYaw(), this->GetPitch(), 0.0f);
 				forwardMove = Vector3::Transform(forwardMove, rotMove);
 				projectiles[i]->SetPos(this->GetPos());
 				projectiles[i]->setExistence(true);
 				projectiles[i]->SetYaw(this->GetYaw());
+				projectiles[i]->SetPitch(this->GetPitch());
 				projectiles[i]->SetDrag(0.01);
 				projectiles[i]->SetPhysicsOn(true);
 				projectiles[i]->SetAcceleration(forwardMove * 500);
