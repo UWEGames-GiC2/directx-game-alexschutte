@@ -36,6 +36,7 @@ public:
 	Matrix&			getWorldTransform()		  { return m_worldMat; }
 	const Matrix&	getWorldTransform() const { return m_worldMat; }
 
+	bool		DoesExist() { return m_exists; }
 	bool		IsPhysicsOn() { return m_physicsOn; }
 	float		GetDrag() { return m_drag; }
 
@@ -55,6 +56,8 @@ public:
 	void		TogglePhysics() { m_physicsOn = !m_physicsOn; }
 	void		SetDrag(float _drag) { m_drag = _drag; }
 
+	void		setExistence(bool _exists) { m_exists = _exists; }
+
 protected:
 
 	//World transform/matrix of this GO and it components
@@ -67,6 +70,7 @@ protected:
 
 	//very basic physics
 	bool m_physicsOn = false;
+	bool m_exists = true;
 	float m_drag = 0.0f;
 	Vector3 m_vel = Vector3::Zero;
 	Vector3 m_acc = Vector3::Zero;

@@ -14,6 +14,7 @@
 #include "DrawData.h"
 #include "DrawData2D.h"
 #include "ObjectList.h"
+#include "Projectile.h"
 
 #include "CMOGO.h"
 #include <DirectXCollision.h>
@@ -181,6 +182,21 @@ void Game::Initialize(HWND _window, int _width, int _height)
     crosshair->SetPos(Vector2(380.0f, 250.0f));
     crosshair->SetColour(Color((float*)&Colors::LimeGreen));
     m_GameObjects2D.push_back(crosshair);
+
+    TextGO2D* menu1 = new TextGO2D("Target Practice!");
+    menu1->SetPos(Vector2(m_outputWidth / 6, m_outputHeight / 2 - 100));
+    menu1->SetColour(Color((float*)&Colors::LimeGreen));
+    m_MenuUIObjects.push_back(menu1);
+
+    TextGO2D* menu2 = new TextGO2D("PRESS ENTER KEY TO PLAY");
+    menu2->SetPos(Vector2(m_outputWidth / 6, m_outputHeight / 2));
+    menu2->SetColour(Color((float*)&Colors::LimeGreen));
+    m_MenuUIObjects.push_back(menu2);
+
+    TextGO2D* menu3 = new TextGO2D("PRESS SPACE FOR INSTRUCTIONS");
+    menu3->SetPos(Vector2(m_outputWidth / 6, m_outputHeight / 2 + 100));
+    menu3->SetColour(Color((float*)&Colors::LimeGreen));
+    m_MenuUIObjects.push_back(menu3);
     
     //ImageGO2D* logo = new ImageGO2D("logo_small", m_d3dDevice.Get());
     //logo->SetPos(200.0f * Vector2::One);
@@ -241,29 +257,40 @@ void Game::Update(DX::StepTimer const& _timer)
     ReadInput();
     //upon space bar switch camera state
     //see docs here for what's going on: https://github.com/Microsoft/DirectXTK/wiki/Keyboard
-    if (m_GD->m_KBS_tracker.pressed.Space)
-    {
-        if (m_GD->m_GS == GS_PLAY_MAIN_CAM)
-        {
-            m_GD->m_GS = GS_PLAY_TPS_CAM;
-        }
-        else
-        {
-            m_GD->m_GS = GS_PLAY_MAIN_CAM;
-        }
-    }
 
-    //update all objects
-    for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+    switch (current)
     {
-        (*it)->Tick(m_GD);
-    }
-    for (list<GameObject2D*>::iterator it = m_GameObjects2D.begin(); it != m_GameObjects2D.end(); it++)
-    {
-        (*it)->Tick(m_GD);
-    }
+        case GAMEPLAY:
+            //update all objects
+            for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+            {
+                (*it)->Tick(m_GD);
+            }
+            for (list<GameObject2D*>::iterator it = m_GameObjects2D.begin(); it != m_GameObjects2D.end(); it++)
+            {
+                (*it)->Tick(m_GD);
+            }
 
-    CheckCollision();
+            CheckCollision();
+
+        break;
+
+        case MENU:
+            //update menus
+            for (list<GameObject2D*>::iterator it = m_MenuUIObjects.begin(); it != m_MenuUIObjects.end(); it++)
+            {
+                (*it)->Tick(m_GD);
+            }
+            break;
+        case INSTRUCTIONS:
+            //TODO text update
+            break;
+        case GAME_OVER:
+            break;
+        case GAME_WON:
+            break;
+            
+    }
 }
 
 // Draws the scene.
@@ -287,17 +314,37 @@ void Game::Render()
     //update the constant buffer for the rendering of VBGOs
     VBGO::UpdateConstantBuffer(m_DD);
 
-    //Draw 3D Game Obejects
-    for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
-    {
-        (*it)->Draw(m_DD);
-    }
-
-    // Draw sprite batch stuff 
     m_DD2D->m_Sprites->Begin(SpriteSortMode_Deferred, m_states->NonPremultiplied());
-    for (list<GameObject2D*>::iterator it = m_GameObjects2D.begin(); it != m_GameObjects2D.end(); it++)
+
+    switch (current)
     {
-        (*it)->Draw(m_DD2D);
+    case GAMEPLAY:
+        //Draw 3D Game Obejects
+        for (list<GameObject*>::iterator it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
+        {
+            if ((*it)->DoesExist())
+            {
+                (*it)->Draw(m_DD);
+            }
+        }
+
+        // Draw sprite batch stuff 
+        for (list<GameObject2D*>::iterator it = m_GameObjects2D.begin(); it != m_GameObjects2D.end(); it++)
+        {
+            (*it)->Draw(m_DD2D);
+        }
+        break;
+
+    case MENU:
+    case INSTRUCTIONS:
+    case GAME_OVER:
+    case GAME_WON:
+
+        for (list<GameObject2D*>::iterator it = m_MenuUIObjects.begin(); it != m_MenuUIObjects.end(); it++)
+        {
+            (*it)->Draw(m_DD2D);
+        }
+        break;
     }
     m_DD2D->m_Sprites->End();
 
@@ -565,7 +612,7 @@ void Game::ReadInput()
 {
     m_GD->m_KBS = m_keyboard->GetState();
     m_GD->m_KBS_tracker.Update(m_GD->m_KBS);
-    //quit game on hiting escape
+    //quit game on hitting escape
     if (m_GD->m_KBS.Escape)
     {
         ExitGame();
@@ -577,6 +624,22 @@ void Game::ReadInput()
     RECT window;
     GetWindowRect(m_window, &window);
     SetCursorPos((window.left + window.right) >> 1, (window.bottom + window.top) >> 1);
+
+    switch (current)
+    {
+    case MENU:
+        // TODO menu functionality here
+        if (m_GD->m_KBS.Enter)
+        {
+            current = GAMEPLAY;
+        }
+        break;
+    case INSTRUCTIONS:
+    case GAME_OVER:
+    case GAME_WON:
+        //TODO menu functionality here
+        break;
+    }
 }
 
 void Game::CheckCollision()

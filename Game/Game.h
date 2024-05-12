@@ -14,6 +14,7 @@
 #include "CMOGO.h"
 #include "Player.h"
 #include "ImageGO2D.h"
+#include "Projectile.h"
 
 using std::list;
 
@@ -58,6 +59,10 @@ public:
 
     // Properties
     void GetDefaultSize( int& _width, int& _height ) const noexcept;
+
+    //game state
+    enum game_state {MENU, INSTRUCTIONS, GAMEPLAY, GAME_OVER, GAME_WON};
+    game_state current = MENU;
 
 private:
 
@@ -108,13 +113,17 @@ private:
     std::unique_ptr<DirectX::Mouse> m_mouse;
 
     list<GameObject*> m_GameObjects; //data structure to hold pointers to the 3D Game Objects
-    list<GameObject2D*> m_GameObjects2D; //data structure to hold pointers to the 2D Game Objects 
+    list<GameObject2D*> m_GameObjects2D; //data structure to hold pointers to the 2D Game Objects
+    list<GameObject2D*> m_MenuUIObjects;
 
     //list<CMOGO*> m_CMOGameObjects; //data structure to hold pointers to all 3D CMO Game Objects
     //list<CMOGO*> m_PhysicsObjects
 
     std::vector<CMOGO*> m_ColliderObjects;
     std::vector<CMOGO*> m_PhysicsObjects;
+
+    std::vector<CMOGO*> m_PlayerProjectiles;
+    std::vector<Projectile*> m_Projectile;
 
     void CheckCollision();
                                          
