@@ -154,6 +154,16 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_GameObjects.push_back(terrain15);
     m_ColliderObjects.push_back(terrain15);
 
+    //projectiles
+    for (size_t i = 0; i < 5; i++)
+    {
+        Projectile* pProjectile = new Projectile("sphereWhite", m_d3dDevice.Get(), m_fxFactory);
+        pProjectile->setExistence(false);
+        pProjectile->SetScale(5.0f);
+        m_GameObjects.push_back(pProjectile);
+        m_PlayerProjectiles.push_back(pProjectile);
+    }
+
     //create a base camera
     m_cam = new Camera(0.25f * XM_PI, AR, 1.0f, 10000.0f, Vector3::UnitY, Vector3::Zero);
     m_cam->SetPos(Vector3(0.0f, 200.0f, 200.0f));
@@ -164,9 +174,10 @@ void Game::Initialize(HWND _window, int _width, int _height)
     pPlayer->SetScale(Vector3(60.0f, 60.0f, 60.0f));
     m_GameObjects.push_back(pPlayer);
     m_PhysicsObjects.push_back(pPlayer);
+    pPlayer->projectiles = m_PlayerProjectiles;
 
     //add a secondary camera
-    m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 3.5f, 10000.0f, pPlayer, Vector3::UnitY, Vector3(0.0f, 0.0f, 0.01f));
+    m_TPScam = new TPSCamera(0.25f * XM_PI, AR, 0.01f, 10000.0f, pPlayer, Vector3::UnitY, Vector3(0.0f, 0.0f, 0.01f));
     m_GameObjects.push_back(m_TPScam);
 
     //create DrawData struct and populate its pointers

@@ -2,6 +2,7 @@
 #include "Player.h"
 #include <dinput.h>
 #include "GameData.h"
+#include <iostream>
 
 Player::Player(string _fileName, ID3D11Device* _pd3dDevice, IEffectFactory* _EF) : CMOGO(_fileName, _pd3dDevice, _EF)
 {
@@ -89,6 +90,29 @@ void Player::Tick(GameData* _GD)
 	if (_GD->m_KBS.F)
 	{
 		m_acc.y -= 100.0f;
+	}
+
+	if (_GD->m_KBS_tracker.pressed.E)
+	{
+		for (size_t i = 0; i < projectiles.size(); i++)
+		{
+			if (!projectiles[i]->DoesExist())
+			{
+				//TODO pitch projectiles?????
+				Vector3 forwardMove = 40.0f * Vector3::Forward;
+				Matrix rotMove = Matrix::CreateRotationY(m_yaw);
+				forwardMove = Vector3::Transform(forwardMove, rotMove);
+				projectiles[i]->SetPos(this->GetPos());
+				projectiles[i]->setExistence(true);
+				projectiles[i]->SetYaw(this->GetYaw());
+				projectiles[i]->SetDrag(0.01);
+				projectiles[i]->SetPhysicsOn(true);
+				projectiles[i]->SetAcceleration(forwardMove * 500);
+				std::cout << projectiles[i]->GetPos().x << endl;
+				std::cout << projectiles[i]->GetPos().y << endl;
+				break;
+			}
+		}
 	}
 
 	//limit motion of the player

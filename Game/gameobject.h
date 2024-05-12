@@ -57,6 +57,7 @@ public:
 	void		SetDrag(float _drag) { m_drag = _drag; }
 
 	void		setExistence(bool _exists) { m_exists = _exists; }
+	void		SetAcceleration(Vector3 _acceleration) { m_acc = _acceleration; m_vel = Vector3::Zero; }
 
 protected:
 
