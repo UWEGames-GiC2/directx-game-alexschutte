@@ -49,6 +49,7 @@ public:
 
     // Initialization and management
     void Initialize(HWND _window, int _width, int _height);
+    void Reset();
 
     // Basic game loop
     void Tick();

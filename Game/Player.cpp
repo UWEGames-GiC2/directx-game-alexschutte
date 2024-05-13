@@ -27,11 +27,11 @@ void Player::Tick(GameData* _GD)
 
 	if (_GD->m_KBS.LeftShift)
 	{
-		speed = 1200.0f;
+		speed = 800.0f;
 	}
 	else
 	{
-		speed = 675.0f;
+		speed = 375.0f;
 	}
 
 	//player gravity

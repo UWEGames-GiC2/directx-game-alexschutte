@@ -41,6 +41,8 @@ void Game::Initialize(HWND _window, int _width, int _height)
     m_outputWidth = std::max(_width, 1);
     m_outputHeight = std::max(_height, 1);
 
+    targets_hit = 0;
+
     CreateDevice();
 
     CreateResources();
@@ -779,6 +781,19 @@ void Game::ReadInput()
     }
 }
 
+void Game::Reset()
+{
+    targets_hit = 0;
+    pPlayer->SetPos(Vector3(-10.0f, 30.0f, -10.0f));
+    pDoor->SetPos(Vector3(-90.0f, 30.75f, -50.0f));
+    pDoor2->SetPos(Vector3(-190.0f, 30.75f, -50.0f));
+    pDoor3->SetPos(Vector3(-290.0f, 30.75f, -50.0f));
+    for (int i = 0; i < m_Targets.size(); i++)
+    {
+        m_Targets[i]->setExistence(true);
+    }
+}
+
 void Game::CheckProjectileCollision()
 {
     for (int i = 0; i < m_PlayerProjectiles.size(); i++) for (int j = 0; j < m_Targets.size(); j++)
@@ -805,6 +820,7 @@ void Game::CheckProjectileCollision()
                 {
                     pDoor3->Open();
                     std::cout << "Door 3 open" << endl;
+                    Reset();
                     current = GAME_WON;
                 }
             }
