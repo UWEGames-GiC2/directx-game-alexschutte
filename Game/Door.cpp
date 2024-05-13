@@ -12,16 +12,10 @@ Door::~Door()
 
 void Door::Open()
 {
-	SetPos(Vector3 (GetPos().x, GetPos().y + 1.0f, GetPos().z));
-	moved++;
+	SetPos(Vector3 (GetPos().x, GetPos().y + 100.0f, GetPos().z));
 }
 
 void Door::Tick(GameData* _GD)
 {
-	if (targets_hit = target_req && moved < 150.0f)
-	{
-		Open();
-	}
-
 	CMOGO::Tick(_GD);
 }

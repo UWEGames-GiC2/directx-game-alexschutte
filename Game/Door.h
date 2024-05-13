@@ -1,5 +1,7 @@
 #pragma once
 #include "CMOGO.h"
+#include "GameData.h"
+
 class Door :
     public CMOGO
 
@@ -12,9 +14,5 @@ public:
     virtual void Tick(GameData* _GD) override;
 
     int target_req = 0;
-    int targets_hit = 0;
-
-protected:
-    int moved = 0;
 };
 

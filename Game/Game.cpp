@@ -167,67 +167,87 @@ void Game::Initialize(HWND _window, int _width, int _height)
 
     //targets
     pTarget = new Target("target", m_d3dDevice.Get(), m_fxFactory);
-    pTarget->SetPos(Vector3(50.0f, 20.0f, 0.0f));
-    pTarget->SetScale(10.0f);
+    pTarget->SetPos(Vector3(-40.0f, 20.0f, -50.0f));
+    pTarget->SetScale(20.0f);
     m_GameObjects.push_back(pTarget);
     m_ColliderObjects.push_back(pTarget);
     m_Targets.push_back(pTarget);
 
     pTarget1 = new Target("target", m_d3dDevice.Get(), m_fxFactory);
-    pTarget1->SetPos(Vector3(50.0f, 20.0f, 10.0f));
-    pTarget1->SetScale(10.0f);
+    pTarget1->SetPos(Vector3(-60.0f, 30.0f, -30.0f));
+    pTarget1->SetScale(20.0f);
     m_GameObjects.push_back(pTarget1);
     m_ColliderObjects.push_back(pTarget1);
     m_Targets.push_back(pTarget1);
 
     pTarget2 = new Target("target", m_d3dDevice.Get(), m_fxFactory);
-    pTarget2->SetPos(Vector3(50.0f, 20.0f, 20.0f));
-    pTarget2->SetScale(10.0f);
+    pTarget2->SetPos(Vector3(-20.0f, 10.0f, -40.0f));
+    pTarget2->SetScale(20.0f);
     m_GameObjects.push_back(pTarget2);
     m_ColliderObjects.push_back(pTarget2);
     m_Targets.push_back(pTarget2);
 
     pTarget3 = new Target("target", m_d3dDevice.Get(), m_fxFactory);
-    pTarget3->SetPos(Vector3(50.0f, 20.0f, 30.0f));
-    pTarget3->SetScale(10.0f);
+    pTarget3->SetPos(Vector3(-130.0f, 20.0f, -30.0f));
+    pTarget3->SetScale(20.0f);
     m_GameObjects.push_back(pTarget3);
     m_ColliderObjects.push_back(pTarget3);
     m_Targets.push_back(pTarget3);
 
     pTarget4 = new Target("target", m_d3dDevice.Get(), m_fxFactory);
-    pTarget4->SetPos(Vector3(50.0f, 20.0f, 40.0f));
-    pTarget4->SetScale(10.0f);
+    pTarget4->SetPos(Vector3(-150.0f, 35.0f, -40.0f));
+    pTarget4->SetScale(20.0f);
     m_GameObjects.push_back(pTarget4);
     m_ColliderObjects.push_back(pTarget4);
     m_Targets.push_back(pTarget4);
 
     pTarget5 = new Target("target", m_d3dDevice.Get(), m_fxFactory);
-    pTarget5->SetPos(Vector3(50.0f, 20.0f, 50.0f));
-    pTarget5->SetScale(10.0f);
+    pTarget5->SetPos(Vector3(-150.0f, 10.0f, -50.0f));
+    pTarget5->SetScale(20.0f);
     m_GameObjects.push_back(pTarget5);
     m_ColliderObjects.push_back(pTarget5);
     m_Targets.push_back(pTarget5);
 
     pTarget6 = new Target("target", m_d3dDevice.Get(), m_fxFactory);
-    pTarget6->SetPos(Vector3(50.0f, 20.0f, 60.0f));
-    pTarget6->SetScale(10.0f);
+    pTarget6->SetPos(Vector3(-250.0f, 10.0f, -50.0f));
+    pTarget6->SetScale(20.0f);
     m_GameObjects.push_back(pTarget6);
     m_ColliderObjects.push_back(pTarget6);
     m_Targets.push_back(pTarget6);
 
     pTarget7 = new Target("target", m_d3dDevice.Get(), m_fxFactory);
-    pTarget7->SetPos(Vector3(50.0f, 20.0f, 70.0f));
-    pTarget7->SetScale(10.0f);
+    pTarget7->SetPos(Vector3(-240.0f, 25.0f, -30.0f));
+    pTarget7->SetScale(20.0f);
     m_GameObjects.push_back(pTarget7);
     m_ColliderObjects.push_back(pTarget7);
     m_Targets.push_back(pTarget7);
 
     pTarget8 = new Target("target", m_d3dDevice.Get(), m_fxFactory);
-    pTarget8->SetPos(Vector3(50.0f, 20.0f, 80.0f));
-    pTarget8->SetScale(10.0f);
+    pTarget8->SetPos(Vector3(-230.0f, 15.0f, -40.0f));
+    pTarget8->SetScale(20.0f);
     m_GameObjects.push_back(pTarget8);
     m_ColliderObjects.push_back(pTarget8);
     m_Targets.push_back(pTarget8);
+
+    //doors
+
+    pDoor = new Door("longCube", m_d3dDevice.Get(), m_fxFactory, 3);
+    pDoor->SetPos(Vector3(-90.0f, 30.75f, -30.0f));
+    pDoor->SetScale(Vector3(400.0f, 70.0f, 300.0f));
+    m_GameObjects.push_back(pDoor);
+    m_ColliderObjects.push_back(pDoor);
+    
+    pDoor2 = new Door("longCube", m_d3dDevice.Get(), m_fxFactory, 6);
+    pDoor2->SetPos(Vector3(-190.0f, 30.75f, -30.0f));
+    pDoor2->SetScale(Vector3(400.0f, 70.0f, 300.0f));
+    m_GameObjects.push_back(pDoor2);
+    m_ColliderObjects.push_back(pDoor2);
+
+    pDoor3 = new Door("longCube", m_d3dDevice.Get(), m_fxFactory, 9);
+    pDoor3->SetPos(Vector3(-290.0f, 30.75f, -30.0f));
+    pDoor3->SetScale(Vector3(400.0f, 70.0f, 300.0f));
+    m_GameObjects.push_back(pDoor3);
+    m_ColliderObjects.push_back(pDoor3);
 
     //create a base camera
     m_cam = new Camera(0.25f * XM_PI, AR, 1.0f, 10000.0f, Vector3::UnitY, Vector3::Zero);
@@ -728,6 +748,25 @@ void Game::CheckProjectileCollision()
             {
                 m_Targets[j]->targetHit();
                 std::cout << "Hit" << endl;
+                targets_hit++;
+                std::cout << targets_hit << endl;
+                if (targets_hit == pDoor->target_req)
+                {
+                    pDoor->Open();
+                    std::cout << "Door 1 open" << endl;
+                }
+                if (targets_hit == pDoor2->target_req)
+                {
+                    pDoor2->Open();
+                    std::cout << "Door 2 open" << endl;
+
+                }
+                if (targets_hit == pDoor3->target_req)
+                {
+                    pDoor3->Open();
+                    std::cout << "Door 3 open" << endl;
+
+                }
             }
             m_PlayerProjectiles[i]->setExistence(false);
         }
@@ -741,9 +780,12 @@ void Game::CheckCollision()
         CheckProjectileCollision();
         if (m_PhysicsObjects[i]->Intersects(*m_ColliderObjects[j])) //std::cout << "Collision Detected!" << std::endl;
         {
-            XMFLOAT3 eject_vect = Collision::ejectionCMOGO(*m_PhysicsObjects[i], *m_ColliderObjects[j]);
-            auto pos = m_PhysicsObjects[i]->GetPos();
-            m_PhysicsObjects[i]->SetPos(pos - eject_vect);
+            if (m_PhysicsObjects[i]->DoesExist() && m_ColliderObjects[j]->DoesExist())
+            {
+                XMFLOAT3 eject_vect = Collision::ejectionCMOGO(*m_PhysicsObjects[i], *m_ColliderObjects[j]);
+                auto pos = m_PhysicsObjects[i]->GetPos();
+                m_PhysicsObjects[i]->SetPos(pos - eject_vect);
+            }
         }
     }
 }

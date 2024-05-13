@@ -66,6 +66,8 @@ public:
     enum game_state {MENU, INSTRUCTIONS, GAMEPLAY, GAME_OVER, GAME_WON};
     game_state current = MENU;
 
+    int targets_hit = 0;
+
 private:
 
     void Update(DX::StepTimer const& _timer);
@@ -148,4 +150,7 @@ private:
     Target* pTarget6;
     Target* pTarget7;
     Target* pTarget8;
+    Door* pDoor;
+    Door* pDoor2;
+    Door* pDoor3;
 };
