@@ -232,19 +232,19 @@ void Game::Initialize(HWND _window, int _width, int _height)
     //doors
 
     pDoor = new Door("longCube", m_d3dDevice.Get(), m_fxFactory, 3);
-    pDoor->SetPos(Vector3(-90.0f, 30.75f, -30.0f));
+    pDoor->SetPos(Vector3(-90.0f, 30.75f, -50.0f));
     pDoor->SetScale(Vector3(400.0f, 70.0f, 300.0f));
     m_GameObjects.push_back(pDoor);
     m_ColliderObjects.push_back(pDoor);
     
     pDoor2 = new Door("longCube", m_d3dDevice.Get(), m_fxFactory, 6);
-    pDoor2->SetPos(Vector3(-190.0f, 30.75f, -30.0f));
+    pDoor2->SetPos(Vector3(-190.0f, 30.75f, -50.0f));
     pDoor2->SetScale(Vector3(400.0f, 70.0f, 300.0f));
     m_GameObjects.push_back(pDoor2);
     m_ColliderObjects.push_back(pDoor2);
 
     pDoor3 = new Door("longCube", m_d3dDevice.Get(), m_fxFactory, 9);
-    pDoor3->SetPos(Vector3(-290.0f, 30.75f, -30.0f));
+    pDoor3->SetPos(Vector3(-290.0f, 30.75f, -50.0f));
     pDoor3->SetScale(Vector3(400.0f, 70.0f, 300.0f));
     m_GameObjects.push_back(pDoor3);
     m_ColliderObjects.push_back(pDoor3);
@@ -279,17 +279,17 @@ void Game::Initialize(HWND _window, int _width, int _height)
     crosshair->SetColour(Color((float*)&Colors::LimeGreen));
     m_GameObjects2D.push_back(crosshair);
 
-    TextGO2D* menu1 = new TextGO2D("Target Practice!");
+    menu1 = new TextGO2D("Target Practice!");
     menu1->SetPos(Vector2(m_outputWidth / 6, m_outputHeight / 2 - 100));
     menu1->SetColour(Color((float*)&Colors::LimeGreen));
     m_MenuUIObjects.push_back(menu1);
 
-    TextGO2D* menu2 = new TextGO2D("PRESS ENTER KEY TO PLAY");
+    menu2 = new TextGO2D("PRESS ENTER KEY TO PLAY");
     menu2->SetPos(Vector2(m_outputWidth / 6, m_outputHeight / 2));
     menu2->SetColour(Color((float*)&Colors::LimeGreen));
     m_MenuUIObjects.push_back(menu2);
 
-    TextGO2D* menu3 = new TextGO2D("PRESS SPACE FOR INSTRUCTIONS");
+    menu3 = new TextGO2D("PRESS SPACE FOR INSTRUCTIONS");
     menu3->SetPos(Vector2(m_outputWidth / 6, m_outputHeight / 2 + 100));
     menu3->SetColour(Color((float*)&Colors::LimeGreen));
     m_MenuUIObjects.push_back(menu3);
@@ -373,17 +373,28 @@ void Game::Update(DX::StepTimer const& _timer)
 
         case MENU:
             //update menus
+            menu1->setText("Target Practice!");
+            menu2->setText("PRESS ENTER TO PLAY");
+            menu3->setText("PRESS SPACE FOR INSTRUCTIONS");
             for (list<GameObject2D*>::iterator it = m_MenuUIObjects.begin(); it != m_MenuUIObjects.end(); it++)
             {
                 (*it)->Tick(m_GD);
             }
             break;
         case INSTRUCTIONS:
-            //TODO text update
+            menu1->setText("Shoot all cylinder targets! (E)");
+            menu2->setText("Don't touch them though!");
+            menu3->setText("Enter to play/Space for main menu");
             break;
         case GAME_OVER:
+            menu1->setText("You died!");
+            menu2->setText("Enter to respawn ...");
+            menu3->setText("Space for main menu!");
             break;
         case GAME_WON:
+            menu1->setText("You win!");
+            menu2->setText("Enter to restart ...");
+            menu3->setText("Space for main menu!");
             break;
             
     }
@@ -729,10 +740,40 @@ void Game::ReadInput()
         {
             current = GAMEPLAY;
         }
+        if (m_GD->m_KBS.Space)
+        {
+            current = INSTRUCTIONS;
+        }
         break;
     case INSTRUCTIONS:
+        if (m_GD->m_KBS.Enter)
+        {
+            current = GAMEPLAY;
+        }
+        if (m_GD->m_KBS.Space)
+        {
+            current = MENU;
+        }
+        break;
     case GAME_OVER:
+        if (m_GD->m_KBS.Enter)
+        {
+            current = GAMEPLAY;
+        }
+        if (m_GD->m_KBS.Space)
+        {
+            current = MENU;
+        }
+        break;
     case GAME_WON:
+        if (m_GD->m_KBS.Enter)
+        {
+            current = GAMEPLAY;
+        }
+        if (m_GD->m_KBS.Space)
+        {
+            current = MENU;
+        }
         //TODO menu functionality here
         break;
     }
@@ -759,16 +800,23 @@ void Game::CheckProjectileCollision()
                 {
                     pDoor2->Open();
                     std::cout << "Door 2 open" << endl;
-
                 }
                 if (targets_hit == pDoor3->target_req)
                 {
                     pDoor3->Open();
                     std::cout << "Door 3 open" << endl;
-
+                    current = GAME_WON;
                 }
             }
             m_PlayerProjectiles[i]->setExistence(false);
+        }
+        if (m_Targets[j]->DoesExist() && m_Targets[j]->Intersects(*pPlayer))
+        {
+            pPlayer->SetPos(Vector3(-10.0f, 30.0f, -10.0f));
+            std::cout << "Player dead" << endl;
+            current = GAME_OVER;
+            break;
+            //game over
         }
     }
 }

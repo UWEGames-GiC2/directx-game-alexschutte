@@ -17,6 +17,7 @@
 #include "Projectile.h"
 #include "Target.h"
 #include "Door.h"
+#include "TextGO2D.h"
 
 using std::list;
 
@@ -153,4 +154,8 @@ private:
     Door* pDoor;
     Door* pDoor2;
     Door* pDoor3;
+
+    TextGO2D* menu1;
+    TextGO2D* menu2;
+    TextGO2D* menu3;
 };

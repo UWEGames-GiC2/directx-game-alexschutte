@@ -108,7 +108,7 @@ void Player::Tick(GameData* _GD)
 				projectiles[i]->SetPitch(this->GetPitch());
 				projectiles[i]->SetDrag(0.01);
 				projectiles[i]->SetPhysicsOn(true);
-				projectiles[i]->SetAcceleration(forwardMove * 500);
+				projectiles[i]->SetAcceleration(forwardMove * 100);
 				std::cout << projectiles[i]->GetPos().x << endl;
 				std::cout << projectiles[i]->GetPos().y << endl;
 				break;
